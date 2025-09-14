@@ -8,7 +8,28 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:restart": "docker-compose restart",
+    "docker:clean": "docker-compose down -v --remove-orphans && docker system prune -f",
+    
+    "docker:dev:build": "docker-compose -f docker-compose.dev.yml build",
+    "docker:dev:up": "docker-compose -f docker-compose.dev.yml up -d",
+    "docker:dev:down": "docker-compose -f docker-compose.dev.yml down",
+    "docker:dev:logs": "docker-compose -f docker-compose.dev.yml logs -f",
+    "docker:dev:restart": "docker-compose -f docker-compose.dev.yml restart",
+    "docker:dev:clean": "docker-compose -f docker-compose.dev.yml down -v --remove-orphans",
+    
+    "docker:backend:logs": "docker-compose logs -f backend",
+    "docker:frontend:logs": "docker-compose logs -f frontend",
+    "docker:db:logs": "docker-compose logs -f database",
+    
+    "docker:setup": "npm run docker:setup:env && npm run docker:build && npm run docker:up",
+    "docker:setup:env": "node scripts/setup-docker-env.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
