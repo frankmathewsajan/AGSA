@@ -1,26 +1,327 @@
 <div align="center">
-	<h1>AGSA – Automated Government Service Agent</h1>
-	<p><strong>Your agentic AI interface for discovering schemes, verifying documents, and guiding citizens th## 6. AI-Powered Chat System
+	<h1>🏛️ AGSA – Automated Government Service Agent</h1>
+	<p><strong>An AI-powered government services platform that helps citizens discover schemes, verify documents, and navigate bureaucratic processes with ease.</strong></p>
+	
+	<p>
+		<a href="https://devpost.com/software/agsa-automated-government-service-agen">🏆 DevPost Project</a> •
+		<a href="#quick-start">🚀 Quick Start</a> •
+		<a href="#features">✨ Features</a> •
+		<a href="#setup">⚙️ Setup</a> •
+		<a href="#docker">🐳 Docker</a>
+	</p>
+	
+	<p>
+		<em>Frontend:</em> React 18 · TypeScript · Vite · Tailwind CSS · shadcn/ui<br>
+		<em>Backend:</em> Django 5.2.6 · DRF · PostgreSQL · Google Gemini AI · UV Package Manager<br>
+		<em>Infrastructure:</em> Docker · Redis · nginx
+	</p>
+</div>
 
-### Google Gemini Integration
-The chat system uses Google Gemini Pro for intelligent responses:
+---
 
-**Key Features:**
-- **Real-time AI Responses**: Contextual conversations powered by Gemini
-- **Intent Classification**: Automatic categorization of user queries
-- **Confidence Scoring**: AI response reliability metrics
-- **Context Preservation**: Maintains conversation history and context
-- **Fallback Handling**: Graceful degradation when AI is unavailable
+## 📋 Table of Contents
 
-**Chat Flow:**
-1. User sends message via `Chat.tsx`
-2. Frontend calls `/api/chat/send/` endpoint
-3. Backend processes with `chat/ai_service.py`
-4. Gemini AI generates contextual response
-5. Response includes intent, confidence, and structured data
-6. Frontend displays with AI indicators (Gemini logo)
+- [🚀 Quick Start](#-quick-start)
+- [✨ Features](#-features)
+- [⚙️ Setup Instructions](#️-setup-instructions)
+- [🐳 Docker Deployment](#-docker-deployment)
+- [🔑 Admin Access](#-admin-access)
+- [📦 DigiLocker Package](#-digilocker-package)
+- [🤖 AI Integration](#-ai-integration)
+- [🧪 Testing](#-testing)
+- [🏗️ Architecture](#️-architecture)
+- [🔮 Future Development](#-future-development)
+- [📄 License](#-license)
 
-**AI Service Configuration:**
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **Python 3.11+** with [UV package manager](https://docs.astral.sh/uv/)
+- **Node.js 18+** with npm
+- **Docker Desktop** (for containerized deployment)
+- **Google Gemini API Key** from [AI Studio](https://aistudio.google.com/app/apikey)
+
+### One-Command Setup (Docker - Recommended)
+```bash
+# Clone the repository
+git clone https://github.com/frankmathewsajan/agsa-gov-agent-ai.git
+cd agsa-gov-agent-ai
+
+# Setup environment and deploy
+npm run docker:setup:env  # Interactive setup
+npm run docker:setup      # Build and start everything
+
+# Access your application
+# Frontend: http://localhost
+# Backend:  http://localhost:8000
+# Admin:    http://localhost:8000/admin
+```
+
+### Manual Development Setup
+```bash
+# Backend setup
+cd backend
+uv sync                    # Install dependencies
+cp .env.template .env      # Copy environment file
+# Add your Gemini API key to .env
+uv run python manage.py migrate
+uv run python manage.py runserver
+
+# Frontend setup (new terminal)
+cd ../
+npm install
+npm run dev
+```
+
+---
+
+## ✨ Features
+
+### 🏛️ Government Services Integration
+- **Scheme Discovery**: AI-powered search for government schemes and benefits
+- **Eligibility Assessment**: Automated qualification checking based on user profile
+- **Document Management**: Secure upload, storage, and verification of government documents
+- **Application Assistance**: Step-by-step guidance for scheme applications
+
+### 🤖 AI-Powered Assistant
+- **Google Gemini Integration**: Advanced natural language processing for user queries
+- **Context-Aware Responses**: Maintains conversation history and user context
+- **Intent Classification**: Automatically categorizes user requests (eligibility, documents, forms)
+- **Confidence Scoring**: AI response reliability metrics with fallback handling
+
+### 🔐 Secure Authentication System
+- **DigiLocker Integration**: Mock implementation of India's digital document locker
+- **OTP-Based Authentication**: Secure phone number verification
+- **KYC Compliance**: Comprehensive user profiling and verification
+- **Document Security**: Encrypted storage and secure access controls
+
+### 📱 Modern User Experience
+- **Responsive Design**: Works seamlessly across desktop, tablet, and mobile
+- **Real-time Chat**: Interactive AI assistant with typing indicators
+- **Document Viewer**: Secure in-browser document preview and download
+- **Progressive Enhancement**: Graceful fallbacks when services are unavailable
+
+---
+
+## ⚙️ Setup Instructions
+
+### Step 1: Get Your Gemini API Key
+1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Sign in with your Google account
+3. Click "Create API Key"
+4. Copy the generated API key (starts with `AIza...`)
+5. Keep this key secure - you'll need it for configuration
+
+### Step 2: Clone and Configure
+```bash
+# Clone the repository
+git clone https://github.com/frankmathewsajan/agsa-gov-agent-ai.git
+cd agsa-gov-agent-ai
+
+# Backend configuration
+cd backend
+uv sync                              # Install Python dependencies
+cp .env.template .env               # Create environment file
+```
+
+### Step 3: Configure Environment Variables
+Edit `backend/.env` and add your configuration:
+```env
+# Required: Add your Gemini API key
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Optional: Customize other settings
+DEBUG=True
+SECRET_KEY=your-secret-key-here
+DATABASE_URL=sqlite:///db.sqlite3
+```
+
+### Step 4: Initialize Database
+```bash
+cd backend
+uv run python manage.py migrate          # Create database tables
+uv run python manage.py collectstatic    # Collect static files
+```
+
+### Step 5: Create Admin User
+```bash
+uv run python manage.py createsuperuser
+# Follow prompts to create admin credentials
+```
+
+### Step 6: Start Development Servers
+```bash
+# Terminal 1: Backend server
+cd backend
+uv run python manage.py runserver
+
+# Terminal 2: Frontend development server
+cd ..
+npm install
+npm run dev
+```
+
+### Step 7: Access Your Application
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:8000
+- **Admin Panel**: http://localhost:8000/admin
+
+---
+
+## 🐳 Docker Deployment
+
+### Quick Docker Setup
+```bash
+# Interactive environment setup
+npm run docker:setup:env
+
+# One-command deployment
+npm run docker:setup
+
+# Access applications
+# Frontend: http://localhost
+# Backend: http://localhost:8000
+```
+
+### Docker Commands Reference
+```bash
+# Production environment
+npm run docker:build        # Build images
+npm run docker:up           # Start services
+npm run docker:down         # Stop services
+npm run docker:logs         # View logs
+npm run docker:clean        # Clean everything
+
+# Development environment
+npm run docker:dev:up       # Start dev environment
+npm run docker:dev:down     # Stop dev environment
+npm run docker:dev:logs     # View dev logs
+
+# Service-specific operations
+npm run docker:backend:logs  # Backend logs only
+npm run docker:frontend:logs # Frontend logs only
+npm run docker:db:logs       # Database logs only
+```
+
+### Docker Services
+| Service | Production Port | Development Port | Purpose |
+|---------|----------------|------------------|---------|
+| Frontend (nginx) | 80 | 3001 | React application |
+| Backend (Django) | 8000 | 8001 | API server |
+| Database (PostgreSQL) | 5432 | 5433 | Data storage |
+| Redis | 6379 | 6380 | Caching & sessions |
+
+---
+
+## 🔑 Admin Access
+
+### Creating a Superuser
+After setting up the application, create an admin user to access the Django admin panel:
+
+```bash
+# Local development
+cd backend
+uv run python manage.py createsuperuser
+
+# Docker environment
+docker-compose exec backend uv run python manage.py createsuperuser
+```
+
+### Admin Panel Features
+Access the admin panel at `http://localhost:8000/admin` to:
+
+- **📄 Manage Documents**: Upload and organize government documents
+- **👥 User Management**: View and manage user accounts
+- **🏛️ Scheme Administration**: Add and modify government schemes
+- **📊 System Monitoring**: View application logs and statistics
+- **🔧 Configuration**: Manage system settings and API keys
+
+### Document Upload Process
+1. Login to admin panel with superuser credentials
+2. Navigate to "Documents" section
+3. Click "Add Document" to upload new documents
+4. Set document type, visibility, and metadata
+5. Documents become available to users through the main interface
+
+---
+
+## 📦 DigiLocker Package
+
+### Overview
+AGSA includes a custom DigiLocker package (`backend/digilocker/`) that provides a mock implementation of India's digital document locker system.
+
+### Package Structure
+```
+backend/digilocker/
+├── __init__.py          # Package initialization
+├── client.py            # Main DigiLocker client
+├── exceptions.py        # Custom exception classes
+├── models.py           # Data models and schemas
+└── client_db.py        # Database interaction layer
+```
+
+### Using the DigiLocker Client
+```python
+from digilocker.client import DigiLockerClient
+
+# Initialize client
+client = DigiLockerClient()
+
+# Authenticate user
+client.authenticate(mobile_number="9876543210")
+client.verify_otp(otp="123456")
+
+# Fetch user documents
+documents = client.get_documents()
+
+# Download specific document
+document_data = client.download_document(doc_id="DOC123")
+```
+
+### Authentication Flow
+1. **Mobile Verification**: User provides mobile number
+2. **OTP Generation**: System sends verification code
+3. **OTP Validation**: User enters code for authentication
+4. **Session Management**: Secure session creation and maintenance
+5. **Document Access**: Authenticated access to user documents
+
+### Security Features
+- **OTP-based Authentication**: No passwords, only secure mobile verification
+- **Session Management**: Time-limited authenticated sessions
+- **Document Encryption**: Secure storage and transmission of sensitive documents
+- **Access Logging**: Comprehensive audit trails for document access
+
+### Extending the Package
+The DigiLocker package is designed to be modular and extensible:
+
+```python
+# Custom document validator
+class CustomDocumentValidator:
+    def validate_aadhaar(self, document):
+        # Implementation for Aadhaar validation
+        pass
+    
+    def validate_pan(self, document):
+        # Implementation for PAN validation
+        pass
+
+# Integration with external services
+client = DigiLockerClient(
+    validator=CustomDocumentValidator(),
+    storage_backend=AWSS3Storage(),
+    notification_service=SMSService()
+)
+```
+
+---
+
+## 🤖 AI Integration
+
+### Google Gemini Configuration
+The application uses Google Gemini Pro for intelligent chat responses:
+
 ```python
 # backend/chat/ai_service.py
 import google.generativeai as genai
@@ -28,26 +329,195 @@ import google.generativeai as genai
 class GeminiChatService:
     def __init__(self):
         genai.configure(api_key=settings.GEMINI_API_KEY)
-        self.model = genai.GenerativeModel('gemini-pro')
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
     
-    def generate_response(self, prompt, context=None):
+    def analyze_user_message(self, message, context=None):
         # AI processing with government service specialization
+        response = self.model.generate_content(prompt)
+        return self.parse_ai_response(response)
 ```
 
-### Message Types & UI
-- **User Messages**: Blue bubbles, right-aligned
-- **AI Messages**: Gray bubbles with Gemini logo indicator
-- **System Messages**: Status updates and error handling
-- **Typing Indicators**: Real-time feedback during AI processingment service workflows.</strong></p>
-	<p>
-		<em>Frontend:</em> Vite · React 18 · TypeScript · Radix UI + shadcn/ui · Tailwind CSS · React Router · Framer Motion<br>
-		<em>Backend:</em> Django 5.2.6 · Django REST Framework · SQLite · Google Gemini AI · UV Package Manager
-	</p>
-</div>
+### AI Features
+- **Intent Classification**: Automatically categorizes user queries
+- **Confidence Scoring**: Reliability metrics for AI responses
+- **Context Preservation**: Maintains conversation history
+- **Fallback Handling**: Graceful degradation when AI is unavailable
+- **Government Domain Expertise**: Specialized knowledge of Indian government schemes
+
+### Chat Flow Architecture
+1. User sends message via React frontend
+2. Frontend calls `/api/chat/` API endpoint
+3. Backend processes with `GeminiChatService`
+4. Gemini AI generates contextual response
+5. Response includes structured data (intent, confidence, actions)
+6. Frontend displays with AI indicators and typing animations
 
 ---
 
-## 1. Quick Start
+## 🧪 Testing
+
+### Backend Test Suite
+```bash
+cd backend
+
+# Populate test data
+uv run tests/populate_sample_data.py
+
+# Run specific test categories
+uv run tests/test_complete_flow.py        # End-to-end testing
+uv run tests/test_chat_api.py            # AI chat functionality
+uv run tests/test_api.py                 # Authentication & documents
+uv run tests/test_frontend_backend_integration.py  # Integration tests
+
+# Run all Django tests
+uv run python manage.py test
+```
+
+### Test Categories
+| Test File | Purpose |
+|-----------|---------|
+| `test_complete_flow.py` | End-to-end user journey testing |
+| `test_chat_api.py` | AI chat functionality and Gemini integration |
+| `test_api.py` | Authentication and document API testing |
+| `test_frontend_backend_integration.py` | Cross-system integration tests |
+| `populate_sample_data.py` | Database seeding with sample data |
+
+### Frontend Testing (Planned)
+```bash
+# Future implementation with Vitest + React Testing Library
+npm run test
+npm run test:coverage
+npm run test:e2e
+```
+
+---
+
+## 🏗️ Architecture
+
+### System Overview
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  React Frontend │    │  Django Backend │    │  Google Gemini  │
+│  (Vite + TS)    │◄──►│  (DRF + SQLite) │◄──►│   AI Service    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│     nginx       │    │   PostgreSQL    │    │     Redis       │
+│  (Production)   │    │   (Production)  │    │   (Sessions)    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+### Frontend Architecture
+- **React 18**: Modern React with hooks and context
+- **TypeScript**: Type-safe development
+- **Vite**: Fast build tool and dev server
+- **Tailwind CSS**: Utility-first styling
+- **shadcn/ui**: High-quality UI components
+- **React Router**: Client-side routing
+- **Framer Motion**: Smooth animations
+
+### Backend Architecture
+- **Django 5.2.6**: Modern Python web framework
+- **Django REST Framework**: API development
+- **UV Package Manager**: Fast Python dependency management
+- **PostgreSQL**: Production-ready database
+- **Redis**: Caching and session storage
+- **Google Gemini AI**: Advanced language model
+
+### Security Features
+- **CORS Configuration**: Secure cross-origin requests
+- **CSRF Protection**: Cross-site request forgery prevention
+- **Secure Headers**: XSS, clickjacking, and content type protection
+- **Input Validation**: Comprehensive data sanitization
+- **Error Handling**: Secure error messages without information leakage
+
+---
+
+## 🔮 Future Development
+
+### Current Status: Prototype
+AGSA is currently a **proof-of-concept prototype** demonstrating the potential of AI-powered government services. This implementation showcases core functionality and user experience patterns.
+
+### Production Roadmap
+
+#### 🔐 Security Enhancements
+- **Production-grade Authentication**: Integration with actual DigiLocker API
+- **Advanced Encryption**: End-to-end encryption for sensitive documents
+- **Audit Logging**: Comprehensive security event tracking
+- **Penetration Testing**: Security vulnerability assessments
+- **Compliance Certification**: SOC 2, ISO 27001 compliance
+
+#### 🏛️ Government Integration
+- **Real API Integration**: Connection to actual government databases
+- **Multi-state Support**: Support for different state government schemes
+- **Document Verification**: Real-time verification with issuing authorities
+- **Blockchain Integration**: Immutable document verification system
+- **Inter-agency Connectivity**: Seamless data sharing between departments
+
+#### 🤖 AI Model Improvements
+- **Custom Fine-tuning**: Government-specific language model training
+- **Multi-language Support**: Regional language processing capabilities
+- **Advanced NLP**: Better intent recognition and entity extraction
+- **Predictive Analytics**: Proactive scheme recommendations
+- **Voice Interface**: Speech-to-text and text-to-speech capabilities
+
+#### 📊 Analytics & Insights
+- **User Analytics**: Comprehensive usage patterns and insights
+- **Performance Monitoring**: Real-time system health and performance
+- **Scheme Effectiveness**: Data-driven policy recommendations
+- **Citizen Feedback**: Automated sentiment analysis and feedback processing
+- **Predictive Modeling**: Anticipating citizen needs and service gaps
+
+#### 🌐 Scalability & Performance
+- **Microservices Architecture**: Scalable service decomposition
+- **Load Balancing**: High-availability deployment patterns
+- **CDN Integration**: Global content delivery optimization
+- **Caching Strategies**: Multi-layer caching for performance
+- **Auto-scaling**: Dynamic resource allocation based on demand
+
+### Vision Statement
+The ultimate goal is to create a **comprehensive digital government platform** that:
+- Eliminates bureaucratic friction for citizens
+- Provides instant access to all government services
+- Uses AI to predict and fulfill citizen needs proactively
+- Ensures transparency and accountability in government processes
+- Bridges the digital divide with multilingual, accessible interfaces
+
+### DevPost Recognition
+This project was showcased on [DevPost](https://devpost.com/software/agsa-automated-government-service-agen) as part of demonstrating innovative solutions for government digitization challenges.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
+- Code of conduct
+- Development setup
+- Pull request process
+- Issue reporting
+
+---
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/frankmathewsajan/agsa-gov-agent-ai/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/frankmathewsajan/agsa-gov-agent-ai/discussions)
+- **DevPost**: [Project Page](https://devpost.com/software/agsa-automated-government-service-agen)
+
+---
+
+<div align="center">
+	<p><strong>Built with ❤️ for a better digital India</strong></p>
+	<p>🏛️ AGSA - Making Government Services Accessible to All</p>
+</div>
 
 ### Frontend Setup
 ```bash

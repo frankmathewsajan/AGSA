@@ -426,6 +426,7 @@ const Auth = () => {
                     <div className="space-y-2">
                       <Label htmlFor="gender">Gender *</Label>
                       <select
+                        aria-label="Select Gender"
                         id="gender"
                         value={signUpData.gender}
                         onChange={(e) => setSignUpData(prev => ({ ...prev, gender: e.target.value }))}
