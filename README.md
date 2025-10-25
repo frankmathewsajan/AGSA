@@ -1,21 +1,14 @@
-<div align="center">
-	<h1>🏛️ AGSA – Automated Government Service Agent</h1>
-	<p><strong>An AI-powered government services platform that helps citizens discover schemes, verify documents, and navigate bureaucratic processes with ease.</strong></p>
-	
-	<p>
-		<a href="https://devpost.com/software/agsa-automated-government-service-agen">🏆 DevPost Project</a> •
-		<a href="#quick-start">🚀 Quick Start</a> •
-		<a href="#features">✨ Features</a> •
-		<a href="#setup">⚙️ Setup</a> •
-		<a href="#docker">🐳 Docker</a>
-	</p>
-	
-	<p>
-		<em>Frontend:</em> React 18 · TypeScript · Vite · Tailwind CSS · shadcn/ui<br>
-		<em>Backend:</em> Django 5.2.6 · DRF · PostgreSQL · Google Gemini AI · UV Package Manager<br>
-		<em>Infrastructure:</em> Docker · Redis · nginx
-	</p>
-</div>
+# 🏛️ AGSA – Automated Government Service Agent
+
+**An AI-powered government services platform that helps citizens discover schemes, verify documents, and navigate bureaucratic processes with ease.**
+
+[🏆 DevPost Project](https://devpost.com/software/agsa-automated-government-service-agen) • [🚀 Quick Start](#quick-start) • [✨ Features](#features) • [⚙️ Setup](#setup) • [🐳 Docker](#docker)
+
+---
+
+**Frontend:** React 18 · TypeScript · Vite · Tailwind CSS · shadcn/ui  
+**Backend:** Django 5.2.6 · DRF · PostgreSQL · Google Gemini AI · UV Package Manager  
+**Infrastructure:** Docker · Redis · nginx
 
 ---
 
